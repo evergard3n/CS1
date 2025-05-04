@@ -1,5 +1,5 @@
-import { cacheGet, cacheSet } from './redis.js';
-import { Url } from './database.js';
+import { cacheGet, cacheSet } from './cache.js';
+import { Url } from './db.js';
 
 // Tạo ID ngẫu nhiên với độ dài xác định
 function generateId(length) {
