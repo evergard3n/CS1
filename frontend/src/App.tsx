@@ -2,8 +2,11 @@ import { ArrowRightIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { toast } from "sonner"
 import { isValidUrl } from "./lib/helperFunctions";
+import { getShortenedUrl } from "./lib/data";
+
 
 export default function App() {
+  const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL
   const [originalUrl, setOriginalUrl] = useState<string>(
     "https://www.google.com"
   );
@@ -18,7 +21,7 @@ export default function App() {
     e.preventDefault();
     navigator.clipboard.writeText(shortenedUrl);
   }
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if(!e.currentTarget.url.value || !isValidUrl(e.currentTarget.url.value)) {
       toast.error("Please enter a valid URL");
@@ -27,6 +30,10 @@ export default function App() {
     setFinished(false);
     setOriginalUrl(e.currentTarget.url.value);
     setLoading(true);
+    const shortened = await getShortenedUrl(e.currentTarget.url.value);
+    setShortenedUrl(shortened);
+    setLoading(false);
+    setFinished(true);
   }
   useEffect(() => {
     if (copied) {
@@ -58,7 +65,7 @@ export default function App() {
           </p> */}
         </div>
         <form action="" onSubmit={handleSubmit} className="w-full">
-          <label htmlFor="url">Paste your long link here:</label>
+          <label htmlFor="url">Paste your long link here: </label>
           <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
             <input
               id="url"
