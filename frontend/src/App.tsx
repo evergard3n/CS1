@@ -1,9 +1,8 @@
 import { ArrowRightIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { isValidUrl } from "./lib/helperFunctions";
 import { getShortenedUrl } from "./lib/data";
-
 
 export default function App() {
   const [originalUrl, setOriginalUrl] = useState<string>(
@@ -22,10 +21,10 @@ export default function App() {
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if(!e.currentTarget.url.value || !isValidUrl(e.currentTarget.url.value)) {
+    if (!e.currentTarget.url.value || !isValidUrl(e.currentTarget.url.value)) {
       toast.error("Please enter a valid URL");
-      return
-    };
+      return;
+    }
     setFinished(false);
     setOriginalUrl(e.currentTarget.url.value);
     setLoading(true);
@@ -42,17 +41,19 @@ export default function App() {
     }
   }, [copied]);
   // simulating traffic
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (loading) {
-        setLoading(false);
-        setFinished(true);
-        setShortenedUrl(originalUrl)
-        toast.success("Success!")
-      }
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [loading]);
+  const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (loading) {
+  //       setLoading(false);
+  //       setFinished(true);
+  //       setShortenedUrl(originalUrl)
+  //       toast.success("Success!")
+  //     }
+  //   }, 2000);
+
+  //   return () => clearInterval(interval);
+  // }, [loading]);
   return (
     <div className="h-screen w-screen bg-zinc-50 flex flex-col items-center justify-center">
       <div className="lg:w-2/5 px-8 flex flex-col items-center gap-8 transition-all duration-200 ease-in">
@@ -88,11 +89,11 @@ export default function App() {
             <div className="bg-zinc-900 p-4 text-white flex flex-col w-full h-fit ">
               <div className="flex flex-row justify-between w-full">
                 <a
-                  className="break-all underline-offset-4 hover:underline w-fit text-2xl"
-                  href={shortenedUrl}
+                  className="break-all underline-offset-4 hover:underline w-fit text-xl"
+                  href={backendUrl + "/short/" + shortenedUrl}
                   target="_blank"
                 >
-                  {shortenedUrl}
+                  {backendUrl + "/short/" + shortenedUrl}
                 </a>
                 <button
                   className="hidden md:flex flex-row gap-2 items-center bg-white text-black px-4 py-2"
