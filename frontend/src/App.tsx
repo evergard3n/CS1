@@ -6,7 +6,6 @@ import { getShortenedUrl } from "./lib/data";
 
 
 export default function App() {
-  const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL
   const [originalUrl, setOriginalUrl] = useState<string>(
     "https://www.google.com"
   );
