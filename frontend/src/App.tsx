@@ -17,7 +17,7 @@ export default function App() {
   function handleClipboard(e: React.MouseEvent<HTMLButtonElement>) {
     setCopied(true);
     e.preventDefault();
-    navigator.clipboard.writeText(shortenedUrl);
+    navigator.clipboard.writeText(`${backendUrl}/short/${shortenedUrl}`);
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
